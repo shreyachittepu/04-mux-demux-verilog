@@ -1,0 +1,40 @@
+//Testbench file 1-to-8 demultiplexer - demux1to8_tb.v
+
+`timescale 1ns / 1ps
+
+module demux1to8_tb;
+
+    // Inputs
+    reg i;
+    reg [2:0] sel;
+
+    // Outputs
+    wire [7:0] y;
+
+    // Instantiate the module under test
+    demux1to8 dut(
+        .i(i),
+        .sel(sel),
+        .y(y)
+    );
+
+    // Initial stimulus
+    initial begin
+        // Initialize inputs
+        i = 1'b0;
+        sel = 3'b000;
+
+        // Monitor outputs
+        $monitor("Time=%0t i=%b sel=%b y=%b", $time, i, sel, y);
+
+        // Apply various input combinations
+        repeat (8) begin
+            #20 sel = sel + 1; // Increment sel
+			    i=~i;
+        end
+
+        // End simulation
+        #20 $finish;
+    end
+
+endmodule
